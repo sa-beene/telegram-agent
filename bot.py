@@ -184,7 +184,8 @@ Only return the JSON array or NOTHING. No explanation."""
         return
 
     try:
-        updates = json.loads(result)
+        clean = result.replace("```json", "").replace("```", "").strip()
+        updates = json.loads(clean)
         updated_files = []
         for u in updates:
             update_md_file(u["filepath"], u["new_content"])
@@ -227,7 +228,8 @@ Only return the JSON array. No explanation."""
     result = response.content[0].text.strip()
 
     try:
-        updates = json.loads(result)
+        clean = result.replace("```json", "").replace("```", "").strip()
+        updates = json.loads(clean)
         updated_files = []
         for u in updates:
             update_md_file(u["filepath"], u["new_content"])

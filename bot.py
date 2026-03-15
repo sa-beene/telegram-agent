@@ -281,13 +281,20 @@ async def transcribe_voice(file_bytes: bytes) -> str:
 
 def auto_detect_mode(user_message: str, explicit_mode: str) -> str:
     """
-    If the user has explicitly set a mode, keep it.
-    Otherwise, infer the best mode from the message content.
+    Infer the best mode from message content.
+    Explicit mode is respected UNLESS the message has strong emotional/urgent signals,
+    in which case journaling always wins.
     """
-    if explicit_mode != "chat":
-        return explicit_mode  # respect explicit override
-
     message_lower = user_message.lower()
+
+    # Journaling always overrides — emotional urgency takes priority
+    journaling_signals = ["anxiety attack", "anxious", "anxiety", "panic", "scared", "worried", "sad", "crying", "feel like", "feeling", "felt", "stressed", "overwhelmed", "thinking about", "been thinking", "i dont know", "idk", "confused", "lost", "struggling", "therapy", "vent", "processing", "fight with", "argument", "breakup", "heartbroken", "depressed", "exhausted", "can't sleep", "cant sleep"]
+    if any(s in message_lower for s in journaling_signals):
+        return "journaling"
+
+    # If explicit mode is set and no emotional override, respect it
+    if explicit_mode != "chat":
+        return explicit_mode
 
     # Finance signals
     finance_signals = ["rsu", "stock", "tax", "invest", "money", "portfolio", "sell", "gains", "etf", "salary", "visa", "perm", "green card", "wise", "transfer", "eur", "usd", "capital"]
@@ -303,11 +310,6 @@ def auto_detect_mode(user_message: str, explicit_mode: str) -> str:
     tasks_signals = ["email", "calendar", "schedule", "remind", "todo", "task", "book", "draft", "send", "write to", "message", "organise", "organize"]
     if any(s in message_lower for s in tasks_signals):
         return "tasks"
-
-    # Journaling signals — emotional language, personal reflection
-    journaling_signals = ["feel", "feeling", "felt", "anxious", "anxiety", "scared", "worried", "sad", "happy", "excited", "stressed", "overwhelmed", "thinking about", "been thinking", "i dont know", "idk", "confused", "lost", "struggling", "therapy", "journal", "vent", "processing"]
-    if any(s in message_lower for s in journaling_signals):
-        return "journaling"
 
     return "chat"
 

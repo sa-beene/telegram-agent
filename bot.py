@@ -5,6 +5,8 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 import anthropic
 from github import Github
+import openai
+import tempfile
 
 load_dotenv()
 
@@ -82,10 +84,22 @@ def is_update_request(message):
     keywords = ["update my", "change my", "edit my", "modify my", "fix my", "tone down", "update the", "change the"]
     return any(kw in message.lower() for kw in keywords)
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    user_message = update.message.text
+async def transcribe_voice(file_bytes: bytes) -> str:
+    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as tmp:
+        tmp.write(file_bytes)
+        tmp_path = tmp.name
+    try:
+        with open(tmp_path, "rb") as audio_file:
+            transcript = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+            )
+        return transcript.text
+    finally:
+        os.unlink(tmp_path)
 
+async def process_message(update: Update, user_id: int, user_message: str):
     save_message(user_id, "user", user_message)
     history = load_history(user_id)
 
@@ -137,7 +151,26 @@ CONTENT:
     save_message(user_id, "assistant", reply)
     await update.message.reply_text(reply)
 
+async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    await process_message(update, user_id, update.message.text)
+
+async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+
+    await update.message.reply_text("🎙️ Transcribing...")
+
+    voice = update.message.voice or update.message.audio
+    tg_file = await context.bot.get_file(voice.file_id)
+    file_bytes = await tg_file.download_as_bytearray()
+
+    transcript = await transcribe_voice(bytes(file_bytes))
+    await update.message.reply_text(f"📝 _{transcript}_", parse_mode="Markdown")
+
+    await process_message(update, user_id, transcript)
+
 init_db()
 app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
 app.run_polling()

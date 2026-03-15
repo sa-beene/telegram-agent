@@ -19,7 +19,7 @@ GITHUB_REPO = os.getenv("GITHUB_REPO")
 BACKGROUND_UPDATE_EVERY = 5
 
 MODES = {
-    "journaling": {"file": "skills/journaling.md", "emoji": "📓", "triggers": ["journaling mode", "journal mode", "lets journal", "switch to journaling", "journaling"]},
+    "journaling": {"file": "skills/journaling.md", "emoji": "📓", "triggers": ["journaling mode", "journal mode", "lets journal", "switch to journaling"]},
     "research": {"file": "skills/research.md", "emoji": "🔍", "triggers": ["research mode", "lets research", "researcher mode", "switch to research"]},
     "tasks": {"file": "skills/tasks.md", "emoji": "✅", "triggers": ["tasks mode", "task mode", "lets do tasks", "assistant mode", "switch to tasks"]},
     "finance": {"file": "skills/finance.md", "emoji": "📊", "triggers": ["finance mode", "financial mode", "lets talk finance", "switch to finance"]},

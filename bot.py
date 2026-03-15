@@ -279,13 +279,45 @@ async def transcribe_voice(file_bytes: bytes) -> str:
     finally:
         os.unlink(tmp_path)
 
+def auto_detect_mode(user_message: str, explicit_mode: str) -> str:
+    """
+    If the user has explicitly set a mode, keep it.
+    Otherwise, infer the best mode from the message content.
+    """
+    if explicit_mode != "chat":
+        return explicit_mode  # respect explicit override
+
+    message_lower = user_message.lower()
+
+    # Finance signals
+    finance_signals = ["rsu", "stock", "tax", "invest", "money", "portfolio", "sell", "gains", "etf", "salary", "visa", "perm", "green card", "wise", "transfer", "eur", "usd", "capital"]
+    if any(s in message_lower for s in finance_signals):
+        return "finance"
+
+    # Research signals
+    research_signals = ["how does", "explain", "what is", "why does", "research", "find out", "look up", "tell me about", "summarise", "compare", "difference between"]
+    if any(s in message_lower for s in research_signals):
+        return "research"
+
+    # Tasks signals
+    tasks_signals = ["email", "calendar", "schedule", "remind", "todo", "task", "book", "draft", "send", "write to", "message", "organise", "organize"]
+    if any(s in message_lower for s in tasks_signals):
+        return "tasks"
+
+    # Journaling signals — emotional language, personal reflection
+    journaling_signals = ["feel", "feeling", "felt", "anxious", "anxiety", "scared", "worried", "sad", "happy", "excited", "stressed", "overwhelmed", "thinking about", "been thinking", "i dont know", "idk", "confused", "lost", "struggling", "therapy", "journal", "vent", "processing"]
+    if any(s in message_lower for s in journaling_signals):
+        return "journaling"
+
+    return "chat"
+
 async def process_message(update: Update, user_id: int, user_message: str):
     save_message(user_id, "user", user_message)
     state = get_user_state(user_id)
-    current_mode = state["mode"]
+    explicit_mode = state["mode"]
     message_count = state["message_count"]
 
-    # Check for mode switch
+    # Check for explicit mode switch
     new_mode = detect_mode_switch(user_message)
     if new_mode:
         set_mode(user_id, new_mode)
@@ -301,11 +333,14 @@ async def process_message(update: Update, user_id: int, user_message: str):
     if is_explicit_update_request(user_message):
         reply = await run_explicit_md_update(update, user_message)
     else:
+        # Auto-detect mode for this message
+        active_mode = auto_detect_mode(user_message, explicit_mode)
+
         history = load_history(user_id)
         response = client.messages.create(
             model="claude-opus-4-6",
             max_tokens=1024,
-            system=load_context(current_mode),
+            system=load_context(active_mode),
             messages=history
         )
         reply = response.content[0].text

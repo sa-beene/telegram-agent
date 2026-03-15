@@ -173,6 +173,74 @@ def is_explicit_update_request(message):
     ]
     return any(kw in message.lower() for kw in keywords)
 
+MEMORY_SUMMARY_TRIGGERS = [
+    "what do you know about me",
+    "summarise my profile",
+    "summarize my profile",
+    "what do you know",
+    "memory summary",
+    "what have you saved",
+    "what do you remember",
+    "show me my profile",
+    "what do you know about my finances",
+    "summarise my finances",
+    "summarize my finances",
+    "what do you know about my work",
+    "summarise my work",
+    "what do you know about my visa",
+    "what do you know about my therapy",
+    "what do you know about my relationships",
+]
+
+MODE_SUMMARY_FOCUS = {
+    "finance": ["context/finances.md", "skills/finance.md"],
+    "research": None,  # all files
+    "tasks": ["profile.md", "context/work.md"],
+    "journaling": ["profile.md", "context/relationships.md", "skills/journaling.md"],
+    "chat": None,  # all files
+}
+
+def is_memory_summary_request(message):
+    message_lower = message.lower()
+    return any(t in message_lower for t in MEMORY_SUMMARY_TRIGGERS)
+
+async def run_memory_summary(user_message: str, active_mode: str) -> str:
+    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+    # Decide which files to focus on
+    focus_files = MODE_SUMMARY_FOCUS.get(active_mode)
+    if focus_files:
+        md_contents = {}
+        for f in focus_files:
+            if os.path.exists(f):
+                with open(f, "r") as file:
+                    md_contents[f] = file.read()
+    else:
+        md_contents = {}
+        for f in list_md_files():
+            with open(f, "r") as file:
+                md_contents[f] = file.read()
+
+    files_text = chr(10).join([f"=== {path} ==={chr(10)}{content}" for path, content in md_contents.items()])
+
+    prompt = f"""The user wants a summary of what you know about them. Here are their context files:
+
+{files_text}
+
+The user asked: "{user_message}"
+
+Write a warm, natural summary in first person ("I know that you..."). 
+Be concise but complete. Group related things together. 
+Don't just list the file contents — synthesize them into a readable overview.
+If the question is about a specific topic (finances, visa, therapy etc), focus on that."""
+
+    response = client.messages.create(
+        model="claude-opus-4-6",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text
+
 async def run_background_md_update(update: Update, user_id: int, history: list):
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     md_contents = read_md_files()
@@ -332,7 +400,9 @@ async def process_message(update: Update, user_id: int, user_message: str):
 
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-    if is_explicit_update_request(user_message):
+    if is_memory_summary_request(user_message):
+        reply = await run_memory_summary(user_message, active_mode)
+    elif is_explicit_update_request(user_message):
         reply = await run_explicit_md_update(update, user_message)
     else:
         # Auto-detect mode for this message

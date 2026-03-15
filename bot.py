@@ -387,6 +387,14 @@ async def process_message(update: Update, user_id: int, user_message: str):
     explicit_mode = state["mode"]
     message_count = state["message_count"]
 
+    # Memory summary takes priority over mode switching
+    if is_memory_summary_request(user_message):
+        active_mode = auto_detect_mode(user_message, explicit_mode)
+        reply = await run_memory_summary(user_message, active_mode)
+        save_message(user_id, "assistant", reply)
+        await update.message.reply_text(reply)
+        return
+
     # Check for explicit mode switch
     new_mode = detect_mode_switch(user_message)
     if new_mode:
@@ -400,9 +408,7 @@ async def process_message(update: Update, user_id: int, user_message: str):
 
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-    if is_memory_summary_request(user_message):
-        reply = await run_memory_summary(user_message, active_mode)
-    elif is_explicit_update_request(user_message):
+    if is_explicit_update_request(user_message):
         reply = await run_explicit_md_update(update, user_message)
     else:
         # Auto-detect mode for this message

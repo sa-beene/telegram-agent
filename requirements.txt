@@ -1,6 +1,9 @@
+# updated
 psycopg2-binary
 python-telegram-bot
 anthropic
 python-dotenv
 PyGithub
 openai
+google-generativeai
+Pillow

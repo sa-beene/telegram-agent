@@ -16,7 +16,15 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPO = os.getenv("GITHUB_REPO")
 
-BACKGROUND_UPDATE_EVERY = 5  # run background MD check every N messages
+BACKGROUND_UPDATE_EVERY = 5
+
+MODES = {
+    "journaling": {"file": "skills/journaling.md", "emoji": "📓", "triggers": ["journaling mode", "journal mode", "lets journal", "switch to journaling", "journaling"]},
+    "research": {"file": "skills/research.md", "emoji": "🔍", "triggers": ["research mode", "lets research", "researcher mode", "switch to research"]},
+    "tasks": {"file": "skills/tasks.md", "emoji": "✅", "triggers": ["tasks mode", "task mode", "lets do tasks", "assistant mode", "switch to tasks"]},
+    "finance": {"file": "skills/finance.md", "emoji": "📊", "triggers": ["finance mode", "financial mode", "lets talk finance", "switch to finance"]},
+    "chat": {"file": None, "emoji": "💬", "triggers": ["chat mode", "normal mode", "default mode", "exit mode", "back to normal", "switch back", "switch to default"]},
+}
 
 def init_db():
     conn = psycopg2.connect(DATABASE_URL)
@@ -33,7 +41,11 @@ def init_db():
     cur.execute("""
         CREATE TABLE IF NOT EXISTS user_state (
             user_id BIGINT PRIMARY KEY,
-            message_count INT DEFAULT 0
+            message_count INT DEFAULT 0,
+            mode TEXT DEFAULT 'chat'
+    );
+    """)
+    cur.execute("ALTER TABLE user_state ADD COLUMN IF NOT EXISTS mode TEXT DEFAULT 'chat'")
         )
     """)
     conn.commit()
@@ -47,19 +59,31 @@ def save_message(user_id, role, content):
         (user_id, role, content)
     )
     cur.execute("""
-        INSERT INTO user_state (user_id, message_count) VALUES (%s, 1)
+        INSERT INTO user_state (user_id, message_count, mode) VALUES (%s, 1, 'chat')
         ON CONFLICT (user_id) DO UPDATE SET message_count = user_state.message_count + 1
     """, (user_id,))
     conn.commit()
     conn.close()
 
-def get_message_count(user_id):
+def get_user_state(user_id):
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
-    cur.execute("SELECT message_count FROM user_state WHERE user_id = %s", (user_id,))
+    cur.execute("SELECT message_count, mode FROM user_state WHERE user_id = %s", (user_id,))
     row = cur.fetchone()
     conn.close()
-    return row[0] if row else 0
+    if row:
+        return {"message_count": row[0], "mode": row[1]}
+    return {"message_count": 0, "mode": "chat"}
+
+def set_mode(user_id, mode):
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO user_state (user_id, message_count, mode) VALUES (%s, 0, %s)
+        ON CONFLICT (user_id) DO UPDATE SET mode = %s
+    """, (user_id, mode, mode))
+    conn.commit()
+    conn.close()
 
 def load_history(user_id, limit=20):
     conn = psycopg2.connect(DATABASE_URL)
@@ -72,21 +96,31 @@ def load_history(user_id, limit=20):
     conn.close()
     return [{"role": row[0], "content": row[1]} for row in reversed(rows)]
 
-def load_context():
+def load_context(mode="chat"):
     context = ""
+    # Always load profile
     if os.path.exists("profile.md"):
         with open("profile.md", "r") as f:
             context += f.read() + "\n\n"
+    # Always load all context/ files
     if os.path.exists("context"):
         for filename in sorted(os.listdir("context")):
             if filename.endswith(".md"):
                 with open(f"context/{filename}", "r") as f:
                     context += f.read() + "\n\n"
+    # Load active skill file with emphasis, then others as background
+    active_skill_file = MODES.get(mode, {}).get("file")
+    if active_skill_file and os.path.exists(active_skill_file):
+        with open(active_skill_file, "r") as f:
+            context += f"## ACTIVE MODE — follow these instructions carefully:\n{f.read()}\n\n"
+    # Load remaining skills as background
     if os.path.exists("skills"):
         for filename in sorted(os.listdir("skills")):
             if filename.endswith(".md"):
-                with open(f"skills/{filename}", "r") as f:
-                    context += f.read() + "\n\n"
+                filepath = f"skills/{filename}"
+                if filepath != active_skill_file:
+                    with open(filepath, "r") as f:
+                        context += f.read() + "\n\n"
     return context
 
 def list_md_files():
@@ -114,25 +148,24 @@ def update_md_file(filepath, new_content):
     dirpath = os.path.dirname(filepath)
     if dirpath:
         os.makedirs(dirpath, exist_ok=True)
-
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(GITHUB_REPO)
     try:
         file = repo.get_contents(filepath)
-        repo.update_file(
-            filepath,
-            f"Update {filepath} via Telegram",
-            new_content,
-            file.sha
-        )
+        repo.update_file(filepath, f"Update {filepath} via Telegram", new_content, file.sha)
     except Exception:
-        repo.create_file(
-            filepath,
-            f"Create {filepath} via Telegram",
-            new_content
-        )
+        repo.create_file(filepath, f"Create {filepath} via Telegram", new_content)
     with open(filepath, "w") as f:
         f.write(new_content)
+
+def detect_mode_switch(message):
+    import re
+    message_clean = re.sub(r'[^\w\s]', '', message.lower()).strip()
+    for mode, config in MODES.items():
+        for trigger in config["triggers"]:
+            if trigger in message_clean:
+                return mode
+    return None
 
 def is_explicit_update_request(message):
     keywords = [
@@ -143,10 +176,8 @@ def is_explicit_update_request(message):
     return any(kw in message.lower() for kw in keywords)
 
 async def run_background_md_update(update: Update, user_id: int, history: list):
-    """Silently checks recent conversation and updates MDs if anything notable came up."""
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     md_contents = read_md_files()
-
     recent_messages = history[-BACKGROUND_UPDATE_EVERY:]
     conversation_snippet = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in recent_messages])
 
@@ -162,7 +193,7 @@ Only save things that are genuinely new or that update/correct existing info —
 
 If there's nothing worth saving, respond with exactly: NOTHING
 
-If there is something worth saving, respond with a JSON array of updates in this format:
+If there is something worth saving, respond with a JSON array of updates:
 [
   {{
     "filepath": "profile.md",
@@ -177,12 +208,9 @@ Only return the JSON array or NOTHING. No explanation."""
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
-
     result = response.content[0].text.strip()
-
     if result == "NOTHING":
         return
-
     try:
         clean = result.replace("```json", "").replace("```", "").strip()
         updates = json.loads(clean)
@@ -193,10 +221,9 @@ Only return the JSON array or NOTHING. No explanation."""
         if updated_files:
             await update.message.reply_text(f"📝 Saved to {', '.join(updated_files)}")
     except Exception:
-        pass  # Silent fail — don't interrupt the conversation
+        pass
 
 async def run_explicit_md_update(update: Update, user_message: str):
-    """Handles explicit update requests like 'let's update my profile'."""
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     md_contents = read_md_files()
 
@@ -209,7 +236,7 @@ The user said: "{user_message}"
 Figure out which file(s) need updating and rewrite them incorporating the user's request.
 You may update multiple files if needed, or create a new one if appropriate.
 
-Respond with a JSON array in this format:
+Respond with a JSON array:
 [
   {{
     "filepath": "profile.md",
@@ -224,9 +251,7 @@ Only return the JSON array. No explanation."""
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
-
     result = response.content[0].text.strip()
-
     try:
         clean = result.replace("```json", "").replace("```", "").strip()
         updates = json.loads(clean)
@@ -234,7 +259,13 @@ Only return the JSON array. No explanation."""
         for u in updates:
             update_md_file(u["filepath"], u["new_content"])
             updated_files.append(f"`{u['filepath']}`")
-        return f"✅ Updated {', '.join(updated_files)}"
+        summary_parts = [f"✅ Updated {', '.join(updated_files)}\n"]
+        for u in updates:
+            preview = u["new_content"][:600]
+            if len(u["new_content"]) > 600:
+                preview += "..."
+            summary_parts.append(f"*{u['filepath']}*\n{preview}")
+        return "\n".join(summary_parts)
     except Exception as e:
         return f"⚠️ Something went wrong updating your files: {e}"
 
@@ -245,33 +276,43 @@ async def transcribe_voice(file_bytes: bytes) -> str:
         tmp_path = tmp.name
     try:
         with open(tmp_path, "rb") as audio_file:
-            transcript = client.audio.transcriptions.create(
-                model="whisper-1",
-                file=audio_file,
-            )
+            transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
         return transcript.text
     finally:
         os.unlink(tmp_path)
 
 async def process_message(update: Update, user_id: int, user_message: str):
     save_message(user_id, "user", user_message)
-    history = load_history(user_id)
+    state = get_user_state(user_id)
+    current_mode = state["mode"]
+    message_count = state["message_count"]
+
+    # Check for mode switch
+    new_mode = detect_mode_switch(user_message)
+    if new_mode:
+        set_mode(user_id, new_mode)
+        emoji = MODES[new_mode]["emoji"]
+        mode_name = new_mode.capitalize()
+        reply = f"{emoji} Switched to {mode_name} mode."
+        save_message(user_id, "assistant", reply)
+        await update.message.reply_text(reply)
+        return
+
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
     if is_explicit_update_request(user_message):
         reply = await run_explicit_md_update(update, user_message)
     else:
+        history = load_history(user_id)
         response = client.messages.create(
             model="claude-opus-4-6",
             max_tokens=1024,
-            system=load_context(),
+            system=load_context(current_mode),
             messages=history
         )
         reply = response.content[0].text
 
-        # Background MD update every N user messages
-        count = get_message_count(user_id)
-        if count % BACKGROUND_UPDATE_EVERY == 0:
+        if message_count % BACKGROUND_UPDATE_EVERY == 0:
             await run_background_md_update(update, user_id, history)
 
     save_message(user_id, "assistant", reply)
@@ -283,16 +324,12 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-
     await update.message.reply_text("🎙️ Transcribing...")
-
     voice = update.message.voice or update.message.audio
     tg_file = await context.bot.get_file(voice.file_id)
     file_bytes = await tg_file.download_as_bytearray()
-
     transcript = await transcribe_voice(bytes(file_bytes))
     await update.message.reply_text(f"📝 _{transcript}_", parse_mode="Markdown")
-
     await process_message(update, user_id, transcript)
 
 init_db()

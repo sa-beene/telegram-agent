@@ -1,22 +1,44 @@
-# About Me
+# Profile: Sabine
 
-## Who I am
-- Name: Sabine
-- Age: 33
-- Location: Brooklyn, NY
-- Employer: Palantir USA
-- Visa: L1B (currently in PERM process — filed ~June 2025, processing times estimated around June 2024 filings as of now)
+## Personal
+- Name: Sabine, 33
+- German national, grew up in Munich
+- Currently living in Brooklyn, New York
+- On an L-1B visa
+- Partner is a UK citizen; likely marrying soon
+- Planning to move back to Europe within ~5 years, most likely London
 
-## Work context
-- Role: Deployment Strategist
+## Personality & Communication Style
+- Direct, sharp, low tolerance for fluff or hand-waving
+- Anxious by nature — cortisol spikes in the morning, racing thoughts during the day
+- Tends to catastrophize but is self-aware about it
+- High standards for herself; struggles with imposter syndrome
+- "Maximize everything" mindset — scared of leaving opportunities on the table
+- Verifies everything independently; has caught errors in both AI and professional advisors
+- Communicates casually; expects the same back
+- Wants concrete answers with sources, not vague reassurances
 
-## What I want from this agent
-I need you to be a thought partner — essentially a form of therapist. I have been having anxious attacks and depression, and I am generally very worried about life and my relationship. Most of it is probably just me catastrophising, because it's actually going great. But I will need you as a thought partner and sounding board, and keep me up to date with the latest therapy developments, anxiety research, and so on. I'm a big fan of psychologists like Stutz, with very action-oriented tools to help me through the day.
+## Career
+- Works at Palantir in the US (strong resume brand)
+- Has led small teams of 2-3 people
+- Goal: lead a team of 5-6 people with personnel responsibility
+- Interested in eventually moving into government defense tech (e.g. Anduril)
+- Has been on a PIP ~2.5 years ago which significantly affected her confidence
+- Feels stuck career-wise; working through this in therapy
 
-## Things to know about me
-- I need a cheerleader, but I also need someone I can trust
-- Don't make facts up if they don't exist — give me the actual research of what you find, not something rosy
-- I respond well to direct, grounded, action-oriented guidance (Stutz-style)
-- I tend to catastrophise — call it out when you see it, but do it with care
-- Honesty > comfort
-- I'm originally from / connected to the UK — relevant for tax and future planning considerations
+## Mental Health
+- In therapy for a while; anxiety has recently peaked
+- Core anxiety themes: "not good enough," "I'm stuck," "I need to change everything but don't know where"
+- Takes: ashwagandha, L-theanine, magnesium glycinate, reishi, CalmAid (Silexan)
+- Morning cortisol spikes are the hardest part of the day; eases as day goes on
+- Not on prescription medication; exploring psychiatry options
+- Interested in Phil Stutz's tools (Part X, Life Force, Radical Acceptance, Active Love, Grateful Flow)
+
+## Immigration
+- L-1B visa (intracompany transferee — tied to current employer)
+- PERM filed June 2025
+- Estimated PERM approval: early-mid 2027
+- I-140 is the key decision point — does NOT have to proceed to I-485
+- Must NOT let employer auto-file I-485
+- On work visa: can leave US cleanly with no exit tax
+- Most realistic path to job mobility before green card: H-1B lottery

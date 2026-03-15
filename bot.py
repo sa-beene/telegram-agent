@@ -43,11 +43,9 @@ def init_db():
             user_id BIGINT PRIMARY KEY,
             message_count INT DEFAULT 0,
             mode TEXT DEFAULT 'chat'
-    );
-    """)
-    cur.execute("ALTER TABLE user_state ADD COLUMN IF NOT EXISTS mode TEXT DEFAULT 'chat'")
         )
     """)
+    cur.execute("ALTER TABLE user_state ADD COLUMN IF NOT EXISTS mode TEXT DEFAULT 'chat'")
     conn.commit()
     conn.close()
 

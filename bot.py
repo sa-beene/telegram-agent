@@ -342,7 +342,7 @@ Only return the JSON array. No explanation."""
         return f"⚠️ Something went wrong updating your files: {e}"
 
 async def describe_image_with_gemini(image_bytes: bytes, caption: str = "") -> str:
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash")
     image = PIL.Image.open(io.BytesIO(image_bytes))
     if caption:
         prompt = (

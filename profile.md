@@ -18,6 +18,15 @@
 - Communicates casually; expects the same back
 - Wants concrete answers with sources, not vague reassurances
 
+## Core Identity & Self-Perception
+- Presents as bubbly, outgoing, fun — but is fundamentally introverted
+- Draws energy from being home with a book and a bathtub; social interaction is a skill/spike, not a source of comfort
+- Deep-seated belief that she is "boring" — rooted in ex telling her he found her too boring after ~1 year of dating
+- Feels she "lied" at the start of that past relationship by presenting as more outgoing than she is; this left a lasting wound
+- Constantly feels she should be having a more fun life, more friends, doing more — but her authentic preference is quiet/home
+- Hates herself for preferring a quiet life; this is a core vulnerability
+- Very attackable on the "boring" theme — it's her deepest insecurity
+
 ## Career
 - Works at Palantir in the US (strong resume brand)
 - Has led small teams of 2-3 people
@@ -29,6 +38,7 @@
 ## Mental Health
 - In therapy for a while; anxiety has recently peaked
 - Core anxiety themes: "not good enough," "I'm stuck," "I need to change everything but don't know where"
+- The "boring" wound is central — intersects with imposter syndrome, self-worth, and relationship anxiety
 - Takes: ashwagandha, L-theanine, magnesium glycinate, reishi, CalmAid (Silexan)
 - Morning cortisol spikes are the hardest part of the day; eases as day goes on
 - Not on prescription medication; exploring psychiatry options

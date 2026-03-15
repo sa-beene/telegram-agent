@@ -5,6 +5,7 @@
 - Age: 33
 - Location: Brooklyn, NY
 - Employer: Palantir USA
+- Visa: L1B (currently in PERM process — filed ~June 2025, processing times estimated around June 2024 filings as of now)
 
 ## Work context
 - Role: Deployment Strategist
@@ -18,3 +19,4 @@ I need you to be a thought partner — essentially a form of therapist. I have b
 - I respond well to direct, grounded, action-oriented guidance (Stutz-style)
 - I tend to catastrophise — call it out when you see it, but do it with care
 - Honesty > comfort
+- I'm originally from / connected to the UK — relevant for tax and future planning considerations

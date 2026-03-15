@@ -8,6 +8,9 @@ import anthropic
 from github import Github
 import openai
 import tempfile
+import google.generativeai as genai
+import PIL.Image
+import io
 
 load_dotenv()
 
@@ -15,6 +18,9 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 DATABASE_URL = os.getenv("DATABASE_URL")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPO = os.getenv("GITHUB_REPO")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+genai.configure(api_key=GEMINI_API_KEY)
 
 BACKGROUND_UPDATE_EVERY = 5
 
@@ -335,6 +341,25 @@ Only return the JSON array. No explanation."""
     except Exception as e:
         return f"⚠️ Something went wrong updating your files: {e}"
 
+async def describe_image_with_gemini(image_bytes: bytes, caption: str = "") -> str:
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    image = PIL.Image.open(io.BytesIO(image_bytes))
+    if caption:
+        prompt = (
+            f"The user sent this image with the caption: \"{caption}\"\n\n"
+            "Describe what you see in detail. If the caption asks a question or makes a request, "
+            "address it directly. Extract any text, labels, prices, dates, or structured info visible. "
+            "Be thorough but concise."
+        )
+    else:
+        prompt = (
+            "Describe what you see in this image in detail. "
+            "Extract any text, labels, prices, dates, or structured info visible. "
+            "Be thorough but concise."
+        )
+    response = model.generate_content([prompt, image])
+    return response.text
+
 async def transcribe_voice(file_bytes: bytes) -> str:
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as tmp:
@@ -443,8 +468,29 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"📝 _{transcript}_", parse_mode="Markdown")
     await process_message(update, user_id, transcript)
 
+async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    await update.message.reply_text("🔍 Analysing image...")
+    # Get highest resolution photo
+    photo = update.message.photo[-1]
+    tg_file = await context.bot.get_file(photo.file_id)
+    file_bytes = await tg_file.download_as_bytearray()
+    caption = update.message.caption or ""
+    try:
+        description = await describe_image_with_gemini(bytes(file_bytes), caption)
+    except Exception as e:
+        await update.message.reply_text(f"⚠️ Couldn't analyse image: {e}")
+        return
+    # Build the message to feed into the normal pipeline
+    if caption:
+        combined_message = f"[Image description: {description}]\n\nUser's caption/question: {caption}"
+    else:
+        combined_message = f"[Image description: {description}]"
+    await process_message(update, user_id, combined_message)
+
 init_db()
 app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
+app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
 app.run_polling()

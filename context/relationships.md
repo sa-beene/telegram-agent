@@ -19,10 +19,14 @@
 - Has said: "It would be kinder of you to just realize it now and break up with me. I can't break up with you because I'm way too entangled with you."
 - Has said: "I don't want to be the reason you're safe and calm. That is too much pressure on me."
 - Has said it would be easier for him if Sabine weren't so ambitious
+- Has said "no one changes" — said directly to Sabine while she is actively working to change in therapy
 - Wants to make all decisions for the couple; says Sabine is too anxious to handle finances
 - Wants Sabine to travel around for his career
 - When Sabine says she feels she's grown and changed, he rejects it: "No, you haven't changed at all"
 - Tells Sabine their biggest problem is communication; says she doesn't listen and only thinks about herself
+- Tells Sabine she is "very individual" and only thinks about herself; doesn't think she is someone to co-create with
+- Let Sabine live in New York for two years despite wanting a family — Sabine interprets this as proof he wants to co-create
+- Finds Sabine's need to talk for hours annoying
 - Has acknowledged his own approach may be flawed: "Maybe I keep telling you the same things hoping you will finally hear me, using the same approach over and over instead of figuring out how to pivot"
 - Says "I love you" 2-3 times a day — sometimes reactive/rote, sometimes proactive and cuddly
 - Pattern: hurts Sabine → seems to realize it → becomes affectionate → reverts to dismissive behavior
@@ -31,6 +35,7 @@
 - Currently going through a difficult period; described as "very unhappy" and "being mean"
 - They are currently in a fight
 - Doomscrolls Instagram but also genuinely reads up on tech/news
+- Appears completely normal/unbothered while Sabine is in acute distress sitting next to him — Sabine finds it impossible he doesn't sense what she's going through
 
 ## Relationship Dynamics & Patterns
 - Sabine and partner are very different personality types
@@ -44,6 +49,10 @@
 - Sabine describes him as the love of her life — the first partner where she didn't feel restless or like something better was out there
 - He gave her a sense of calm and safety she'd never experienced in a relationship before
 - She fell in love with him specifically because he takes on responsibilities and decisions — she didn't realize how much she needed that before meeting him
+- Sabine's core drive: "I want to become the person he wants me to be" — recognized as problematic but deeply felt
+- Sabine feels her personality is not accepted by him; internalizes this as her personality being wrong
+- Sabine credits him with pushing her toward therapy, honesty, and self-confrontation — feels genuine gratitude for this
+- But voices these breakthroughs to others (Claude, therapist), not to him — because she knows what happens when she does
 - They are actively trying to have children (3 months so far)
 - Kids and family are very important to him
 - Sabine needs a lot of verbal confirmation/reassurance; partner finds that excessive or "dumb"
@@ -58,6 +67,9 @@
 - Feels like she is the one who needs to fix the relationship and that she is pushing him away
 - Feels every attempt to talk about her feelings makes things worse because he reads it as more anxiety
 - Pattern emerging: he defines what is valid — his worldview, his way of loving, his standards for what's interesting
+- Sabine feels he is genuinely kind in crisis but genuinely dismissive in daily life — both are true simultaneously
+- Sabine experiences acute anxiety/choking feeling while sitting next to him and he appears completely oblivious
+- Sabine feels a huge wall/divide between them even when he is acting "completely normal"
 
 ## Ex-Partner
 - Told Sabine after ~1 year of dating that he found her "too boring"

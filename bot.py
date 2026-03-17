@@ -241,7 +241,7 @@ Don't just list the file contents — synthesize them into a readable overview.
 If the question is about a specific topic (finances, visa, therapy etc), focus on that."""
 
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model="claude-sonnet-4-6",
         max_tokens=1024,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -276,7 +276,7 @@ If there is something worth saving, respond with a JSON array of updates:
 Only return the JSON array or NOTHING. No explanation."""
 
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model="claude-sonnet-4-6",
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -319,7 +319,7 @@ Respond with a JSON array:
 Only return the JSON array. No explanation."""
 
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model="claude-sonnet-4-6",
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -441,7 +441,7 @@ async def process_message(update: Update, user_id: int, user_message: str):
 
         history = load_history(user_id)
         response = client.messages.create(
-            model="claude-opus-4-6",
+            model="claude-sonnet-4-6",
             max_tokens=1024,
             system=load_context(active_mode),
             messages=history

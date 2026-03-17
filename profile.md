@@ -26,6 +26,16 @@
 - Constantly feels she should be having a more fun life, more friends, doing more — but her authentic preference is quiet/home
 - Hates herself for preferring a quiet life; this is a core vulnerability
 - Very attackable on the "boring" theme — it's her deepest insecurity
+- When challenged on the "boring" narrative, can articulate "I genuinely don't think I'm boring" — but immediately undermines it with self-criticism
+- Has an "ideal self" image that is much more active/engaged than her actual energy allows — the gap between ideal self and real self causes shame
+- Typical weekend: reading, bookstores, museums, staying home alone — she enjoys this but measures it against a more "interesting" standard
+
+## Energy & Executive Function
+- Chronically exhausted; things fall off her plate because of low mental energy
+- Has been trying to find a new job for a year but can't bring herself to do the work — defaults to reading on the couch instead
+- Avoids effortful tasks (job search, journaling, writing) even when she wants to do them
+- Built the Claude knowledge base / journaling system specifically because she doesn't write or journal on her own — needed to lower the barrier
+- Pattern: knows what "ideal self" would do → can't muster energy → feels bad about the gap → avoids further
 
 ## Career
 - Works at Palantir in the US (strong resume brand)
@@ -34,6 +44,7 @@
 - Interested in eventually moving into government defense tech (e.g. Anduril)
 - Has been on a PIP ~2.5 years ago which significantly affected her confidence
 - Feels stuck career-wise; working through this in therapy
+- Has been actively wanting to leave / find a new job for ~1 year but hasn't been able to act on it
 
 ## Mental Health
 - In therapy for a while; anxiety has recently peaked

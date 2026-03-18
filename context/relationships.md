@@ -70,6 +70,10 @@
 - Sabine feels he is genuinely kind in crisis but genuinely dismissive in daily life — both are true simultaneously
 - Sabine experiences acute anxiety/choking feeling while sitting next to him and he appears completely oblivious
 - Sabine feels a huge wall/divide between them even when he is acting "completely normal"
+- In a crisis moment (Ohio trip, late night, minimal sleep), Sabine mapped out her life without him and found no obvious landing pad — close friends are scattered across LA, SF, one in New York, Munich community, possibly one in London, none in Düsseldorf
+- Would never actually return to Munich — feels like defeat after building life in New York
+- Up until ~2 weeks ago, genuinely believed the path forward was him + family, with career secondary — that clarity has now collapsed into fear and uncertainty
+- Core value when forced to choose: family over career — but now fears the relationship is the only option she sees rather than the thing she genuinely wants
 
 ## Ex-Partner
 - Told Sabine after ~1 year of dating that he found her "too boring"

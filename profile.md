@@ -2,7 +2,7 @@
 
 ## Personal
 - Name: Sabine, 33
-- German national, grew up in Munich
+- German national, grew up in Munich (describes herself as coming from a "village" — moving to NYC was deeply symbolic, proof of "making it")
 - Currently living in Brooklyn, New York
 - On an L-1B visa
 - Partner is a UK citizen; likely marrying soon
@@ -29,6 +29,15 @@
 - When challenged on the "boring" narrative, can articulate "I genuinely don't think I'm boring" — but immediately undermines it with self-criticism
 - Has an "ideal self" image that is much more active/engaged than her actual energy allows — the gap between ideal self and real self causes shame
 - Typical weekend: reading, bookstores, museums, staying home alone — she enjoys this but measures it against a more "interesting" standard
+- Grew up in a small town/village; moving to NYC was a deeply symbolic achievement — "the city of all cities," proof that the village girl made it
+- Has a somewhat "Hollywood" relationship to success symbols — NYC, money, the right partner felt like the dream finally arriving all at once
+
+## Core Fear: Scarcity & Non-Repeatability
+- Deep-seated belief that she got "one shot" and got lucky — the job, the money, the partner all felt like a statistical anomaly
+- Consequentially clings hard to what she has, terrified it can't be replicated
+- Has not yet internalized the reframe: having achieved it once is evidence she can achieve again
+- This scarcity belief underlies much of her anxiety about the relationship, job, and finances
+- Recently articulated this clearly: "I'm clinging instead of believing that when I achieved it once, I can achieve it again"
 
 ## Energy & Executive Function
 - Chronically exhausted; things fall off her plate because of low mental energy
@@ -54,6 +63,9 @@
 - Morning cortisol spikes are the hardest part of the day; eases as day goes on
 - Not on prescription medication; exploring psychiatry options
 - Interested in Phil Stutz's tools (Part X, Life Force, Radical Acceptance, Active Love, Grateful Flow)
+- Currently experiencing a predominant fear of "losing everything" now that she has achieved what she always wanted
+- The arrival of success has triggered anxiety rather than satisfaction — now has something to lose
+- Nervous system hasn't yet learned it's safe; working on building that through experience rather than reassurance
 
 ## Immigration
 - L-1B visa (intracompany transferee — tied to current employer)

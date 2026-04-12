@@ -29,12 +29,12 @@ BACKGROUND_UPDATE_EVERY = 5
 
 # Default models per mode — stored in DB per user, these are just fallbacks
 MODE_MODEL_DEFAULTS = {
-    "journaling": "claude-sonnet-4-5",
-    "research":   "claude-opus-4-5",
-    "tasks":      "claude-sonnet-4-5",
-    "finance":    "claude-opus-4-5",
-    "chat":       "claude-sonnet-4-5",
-    "dev":        "claude-sonnet-4-5",
+    "journaling": "claude-sonnet-4-6",
+    "research":   "claude-sonnet-4-6",
+    "tasks":      "claude-sonnet-4-6",
+    "finance":    "claude-opus-4-6",
+    "chat":       "claude-sonnet-4-6",
+    "dev":        "claude-sonnet-4-6",
 }
 
 MODES = {
@@ -131,7 +131,7 @@ def get_mode_model(user_id, mode):
     conn.close()
     if row:
         return row[0]
-    return MODE_MODEL_DEFAULTS.get(mode, "claude-sonnet-4-5")
+    return MODE_MODEL_DEFAULTS.get(mode, "claude-sonnet-4-6")
 
 def set_mode_model(user_id, mode, model):
     conn = psycopg2.connect(DATABASE_URL)
@@ -281,9 +281,9 @@ def call_llm(model: str, system: str, messages: list, max_tokens: int = 1024) ->
 # ── Mode / model switching detection ─────────────────────────────────────────
 
 MODEL_ALIASES = {
-    "opus":   "claude-opus-4-5",
-    "sonnet": "claude-sonnet-4-5",
-    "haiku":  "claude-haiku-4-5",
+    "opus":   "claude-opus-4-6",
+    "sonnet": "claude-sonnet-4-6",
+    "haiku":  "claude-haiku-4-5-20251001",
 }
 
 def detect_model_switch(message: str):

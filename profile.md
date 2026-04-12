@@ -46,6 +46,13 @@
 - Built the Claude knowledge base / journaling system specifically because she doesn't write or journal on her own — needed to lower the barrier
 - Pattern: knows what "ideal self" would do → can't muster energy → feels bad about the gap → avoids further
 
+## Self-Compassion Struggle
+- Understands intellectually that motivation through kindness works better than brutality
+- Core tension: wants to genuinely accept things like "I like being home alone reading and that's okay" — but fears that acceptance is just letting herself off the hook
+- Worries that telling herself "it's okay" is a cover story for stagnation — that she'll degrade without the pressure
+- Cannot find the middle ground between genuine acceptance and accountability; the self-compassion doesn't feel real, it feels like a trick she's playing on herself
+- This is distinct from not knowing what self-compassion is — she knows the concept; she doesn't trust her own sincerity when she tries to apply it
+
 ## Career
 - Works at Palantir in the US (strong resume brand)
 - Has led small teams of 2-3 people

@@ -31,6 +31,9 @@
 - Typical weekend: reading, bookstores, museums, staying home alone — she enjoys this but measures it against a more "interesting" standard
 - Grew up in a small town/village; moving to NYC was a deeply symbolic achievement — "the city of all cities," proof that the village girl made it
 - Has a somewhat "Hollywood" relationship to success symbols — NYC, money, the right partner felt like the dream finally arriving all at once
+- Specifically grieves not being the person who naturally thrives on the NYC party life — wishes it were effortless and natural for her, not just something she could force
+- Mourning a version of herself that doesn't exist and never did — the girl who "squeezes every drop" out of New York through social/party life
+- Has tried the "bargaining" approach: allowing herself a quiet weekend in exchange for committing to go out the next — but this backfires: she feels pressure to "max out" the quiet weekend because she's already bargained away the next one
 
 ## Core Fear: Scarcity & Non-Repeatability
 - Deep-seated belief that she got "one shot" and got lucky — the job, the money, the partner all felt like a statistical anomaly
@@ -52,6 +55,8 @@
 - Worries that telling herself "it's okay" is a cover story for stagnation — that she'll degrade without the pressure
 - Cannot find the middle ground between genuine acceptance and accountability; the self-compassion doesn't feel real, it feels like a trick she's playing on herself
 - This is distinct from not knowing what self-compassion is — she knows the concept; she doesn't trust her own sincerity when she tries to apply it
+- Has tried "conscious choosing" (e.g. "I'm choosing to stay home this weekend") — doesn't fully resolve the tension either
+- The bargaining strategy (quiet weekend now, social weekend next) backfires: she maximizes the quiet weekend because she's already "spent" the next one, creating more pressure not less
 
 ## Career
 - Works at Palantir in the US (strong resume brand)

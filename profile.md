@@ -34,6 +34,9 @@
 - Specifically grieves not being the person who naturally thrives on the NYC party life — wishes it were effortless and natural for her, not just something she could force
 - Mourning a version of herself that doesn't exist and never did — the girl who "squeezes every drop" out of New York through social/party life
 - Has tried the "bargaining" approach: allowing herself a quiet weekend in exchange for committing to go out the next — but this backfires: she feels pressure to "max out" the quiet weekend because she's already bargained away the next one
+- Has reached a key insight: the "back door" strategy (keeping all options open just in case) is exhausting and makes her less happy than making firm decisions and trusting herself to rebuild if needed
+- Recognizes she rarely actually uses the back doors she builds — but when she does, it reinforces the pattern ("I knew it, this is the smartest way to live")
+- Beginning to see that trusting herself to rebuild from scratch — because she's done it once — is smarter and more peaceful than maintaining infinite optionality
 
 ## Core Fear: Scarcity & Non-Repeatability
 - Deep-seated belief that she got "one shot" and got lucky — the job, the money, the partner all felt like a statistical anomaly
@@ -41,6 +44,8 @@
 - Has not yet internalized the reframe: having achieved it once is evidence she can achieve again
 - This scarcity belief underlies much of her anxiety about the relationship, job, and finances
 - Recently articulated this clearly: "I'm clinging instead of believing that when I achieved it once, I can achieve it again"
+- The "back door" pattern is a direct expression of this fear — keeping every option open because she doesn't fully trust she can rebuild if she commits and it goes wrong
+- Has begun to articulate a counterbelief: in the 3% of cases where she wants to revert a decision, she can build it back up from scratch — because she's done it before
 
 ## Energy & Executive Function
 - Chronically exhausted; things fall off her plate because of low mental energy

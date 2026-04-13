@@ -545,30 +545,27 @@ async def run_dev_request(update: Update, user_id: int, user_message: str):
 
     system_prompt = """You are an expert Python developer modifying a Telegram bot.
 You will receive the current bot.py code and a change request.
-You must return a JSON object with exactly two fields:
-{
-  "new_code": "<complete updated bot.py as a string>",
-  "description": "<plain English description of what you changed and what to watch for — no code, no jargon, max 3 sentences>"
-}
-Important: return the COMPLETE file, not just the changed parts. Only return the JSON object, nothing else."""
 
-    prompt = f"""Current bot.py:
-```python
-{current_code}
-```
+Respond in exactly this format and nothing else:
 
-Change request: {user_message}
+===DESCRIPTION===
+<plain English description of what you changed and what to watch for, no code, no jargon, max 3 sentences>
+===CODE===
+<complete updated bot.py — the full file, not just the changed parts>
+===END===
 
-Return the JSON object with new_code and description."""
+Do not include any text outside these delimiters."""
+
+    prompt = f"Current bot.py:\n\n{current_code}\n\nChange request: {user_message}"
 
     await update.message.reply_text("⚙️ Making the change...")
 
     try:
         result = call_llm(model, system_prompt, [{"role": "user", "content": prompt}], max_tokens=8192)
-        clean = result.replace("```json", "").replace("```", "").strip()
-        parsed = json.loads(clean)
-        new_code = parsed["new_code"]
-        description = parsed["description"]
+        if "===DESCRIPTION===" not in result or "===CODE===" not in result or "===END===" not in result:
+            raise ValueError("Response missing required delimiters")
+        description = result.split("===DESCRIPTION===")[1].split("===CODE===")[0].strip()
+        new_code = result.split("===CODE===")[1].split("===END===")[0].strip()
     except Exception as e:
         await update.message.reply_text(f"⚠️ Couldn't generate the change: {e}")
         return

@@ -762,8 +762,12 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tg_file = await context.bot.get_file(voice.file_id)
     file_bytes = await tg_file.download_as_bytearray()
     transcript = await transcribe_voice(bytes(file_bytes))
-    transcript_preview = transcript[:3000] + "..." if len(transcript) > 3000 else transcript
-    await update.message.reply_text(f"📝 _{transcript_preview}_", parse_mode="Markdown")
+    # Split transcript into chunks if too long for Telegram
+    chunk_size = 3000
+    chunks = [transcript[i:i+chunk_size] for i in range(0, len(transcript), chunk_size)]
+    for i, chunk in enumerate(chunks):
+        prefix = "📝 " if i == 0 else "📝 _(continued)_ "
+        await update.message.reply_text(f"{prefix}_{chunk}_", parse_mode="Markdown")
     await process_message(update, user_id, transcript)
 
 async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):

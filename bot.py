@@ -762,7 +762,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tg_file = await context.bot.get_file(voice.file_id)
     file_bytes = await tg_file.download_as_bytearray()
     transcript = await transcribe_voice(bytes(file_bytes))
-    await update.message.reply_text(f"📝 _{transcript}_", parse_mode="Markdown")
+    transcript_preview = transcript[:3000] + "..." if len(transcript) > 3000 else transcript
+    await update.message.reply_text(f"📝 _{transcript_preview}_", parse_mode="Markdown")
     await process_message(update, user_id, transcript)
 
 async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
